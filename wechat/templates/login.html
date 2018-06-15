@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <img id='timg' src="https://login.weixin.qq.com/qrcode/{{ uuid }}">
+    </div>
+</body>
+    <script src="/static/jquery-3.2.1.js"></script>
+    <script>
+        $(function () {
+            checkcode()
+        });
+        function checkcode() {
+            $.ajax({
+               url:'/check_login',
+               type:'get',
+               data:{},
+               dataType:'JSON',
+               success:function (arg) {
+                   if (arg.code==408){
+                       checkcode()
+                   }else if(arg.code==201){
+                        $('#timg').attr('src',arg.data);
+                       checkcode()
+                   }else if(arg.code==200){
+                       location.href='/index.html';
+                   }
+               }
+            }
+
+            )
+        }
+
+    </script>
+</html>

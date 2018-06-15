@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<H1>用户列表({{ userlist.MemberCount }})</H1>
+        <div style="float: right">
+            <input type="text" id="msg" placeholder="内容">
+            <input type="button" value="发送" onclick="sendmsg()">
+            <input id="to" placeholder="接收">
+        </div>
+
+        {% for user in userlist.MemberList %}
+            <div username="{{ user.UserName }}">
+                <img style="height: 50px;width: 50px" src="/avatar.html?prev={{ user.HeadImgUrl }}">
+                <span onclick="get_user(this)">{{ user.NickName }}</span>
+            </div>
+
+        {% endfor %}
+<script src="/static/jquery-3.2.1.js"></script>
+<script>
+    $(function () {
+        getmsg()
+    });
+    function getmsg() {
+         $.ajax({
+            url:'/get_msg.html',
+            type:"GET",
+            success:function (arg){
+                console.log(arg);
+                getmsg()
+            }
+        })
+
+    }
+    function get_user(ths) {
+        $('#to').val($(ths).parent().attr('username'))
+    }
+    function sendmsg() {
+        $.ajax({
+            url:'/send_msg.html',
+            type:"POST",
+            data:{'to':$('#to').val(),'msg':$('#msg').val()},
+            success:function (arg){
+                console.log(arg)
+            }
+        })
+    }
+    
+</script>
+</body>
+</html>

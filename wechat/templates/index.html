@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .friend{
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <H2>个人信息</H2>
+    <img src="/avatar.html?prev={{ request.session.INIT_DICT.User.HeadImgUrl }}">
+    <h2>{{ request.session.INIT_DICT.User.NickName |safe}}</h2>
+    <H2>最近联系人</H2>
+        <ul>
+            {% for user in request.session.INIT_DICT.ContactList %}
+                <li>
+                <img src="/avatar.html?prev={{ user.HeadImgUrl }}"><span class="{{ user.UserName }} friend">{{ user.NickName }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    <H2>公众号</H2>
+    <H2><a href="/contact.html">更多联系人</a></H2>
+
+</body>
+</html>
